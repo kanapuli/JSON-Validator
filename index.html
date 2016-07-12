@@ -1,0 +1,52 @@
+<!DOCTYPE> 
+<html ng-app="JSONLint">
+    <head>
+        <title>JSON LINT</title>
+        <!--/* Linked bootstrap coz the imagination is bigger */-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <!--script src="js/app.js">  </script -->
+        <script>
+            var app = angular.module('JSONLint' , []);
+
+ 
+
+app.controller('mainController' , function ($scope) {
+   $scope.submit = function () {
+       //The if condition seems useless now . 
+        if ($scope.inputJson != "" || $scope.inputJson != undefined)
+    {
+        try{
+           // console.log($scope.inputJson);
+        $scope.inputJson = JSON.stringify(JSON.parse($scope.inputJson) , null , 4);
+        //$scope.errorMessage =  {'Message' : 'Valid Json'}
+    }catch(e){
+        var error = ' { \n "Error": "'+e+'" \n } , \n'
+        //error.fontcolor("red")
+        console.log(error)
+         $scope.inputJson =  error + $scope.inputJson ;
+       
+    }
+
+    }else{
+        var opMessage = {'Message' : 'You are Awesome!'} ;
+        $scope.inputJson = JSON.stringify(opMessage , undefined , 4);
+    }
+    
+   };
+    
+}); 
+        </script>
+    </head>
+    <body ng-controller="mainController as main">
+         <div class="form-group" style="float:left;width:92%">
+             <textarea class="form-control" ng-model="inputJson" style="width:100%;height:100%;font-size: 14px;color: black;background-color: #E5E9EB;line-height: 1.5" > </textarea>
+             <p>{{main.inputJson}}</p>
+         </div>
+         <div class="container" style="float:right;width:8%">
+             <form ng-submit="submit()" style="height:50%">
+                <input type="submit" class="btn btn-info"  value="Validate" style="margin-top:15px">  
+             </form> 
+         </div> 
+    </body>
+</html> 
